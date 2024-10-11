@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { config as envConfig } from 'dotenv';
+import { CategoryModule } from './category/category.module';
+import { SubCategoryModule } from './sub-category/sub-category.module';
+import { join } from 'path';
 envConfig();
 @Module({
   imports: [
@@ -22,12 +25,15 @@ envConfig();
           username: process.env.DB_USERNAME,
           password: process.env.DB_PASSWORD,
           database: process.env.DB_NAME,
+          entities: [join(__dirname, '**/*.entity{.ts,.js}')],
           synchronize: true,
         };
       },
     }),
+    CategoryModule,
+    SubCategoryModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
