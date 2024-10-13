@@ -5,6 +5,8 @@ import { config as envConfig } from 'dotenv';
 import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
 envConfig();
 @Module({
   imports: [
@@ -32,6 +34,8 @@ envConfig();
     }),
     CategoryModule,
     SubCategoryModule,
+    AuthModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],
