@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
 import { SubCategoryEntity } from '../../sub-category/entities/subCategory.entity';
 
 @Entity('category')
@@ -20,5 +20,6 @@ export class Category {
     (subCategory) => subCategory.categoryEntity,
     { nullable: true },
   )
-  subCategoryEntity: SubCategoryEntity[];
+  @JoinColumn({ name: 'subCategoryId', referencedColumnName: 'id' })
+  subCategoryEntity: SubCategoryEntity;
 }
