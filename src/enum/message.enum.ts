@@ -9,4 +9,5 @@ export enum Message {
     INVALID_REQUEST = 'Invalid Request',
     WAS_EXITS = 'Was Exits',
     CREATE_SUCCESS = "Create Success",
+    IS_NOT_EMPTY = "Is not empty"
 }
