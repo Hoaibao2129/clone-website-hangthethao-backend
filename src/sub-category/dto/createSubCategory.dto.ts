@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Message } from "enum/message.enum";
 
 export class createSubCategoryDto {
-    @ApiProperty({ example: 'category' })
+    @ApiProperty({ example: 'áo Manchester United' })
     @IsString()
     @IsNotEmpty({ message: `name ${Message.IS_NOT_EMPTY}` })
     name: string;
