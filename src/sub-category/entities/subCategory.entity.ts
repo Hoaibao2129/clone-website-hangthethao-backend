@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } f
 import { Category } from '../../category/entities/category.entity';
 
 @Entity('subCategory')
-export class SubCategoryEntity {
+export class SubCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
