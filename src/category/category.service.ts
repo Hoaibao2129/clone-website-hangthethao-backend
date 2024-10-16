@@ -7,6 +7,7 @@ import { Message } from "../enum/message.enum";
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
 import { CreateCategoryDto } from './dto/createCategory.dto';
 import { convertName } from "../middleware/convertName";
+import { ResponseData } from 'helper/formatReturn';
 
 @Injectable()
 export class CategoryService {
@@ -16,46 +17,30 @@ export class CategoryService {
   ) { }
   async getCategory() {
     const result = await this.categoryRepository.find();
-    return {
-      data: result,
-      IsSuccess: true,
-      Message: Message.GET_SUCCESS,
-    }
+    return ResponseData.success(result, Message.GET_SUCCESS)
   }
 
   async createCategory(category: CreateCategoryDto) {
     category.name = convertName(category.name);
     const checkName = await this.categoryRepository.findOne({ where: { name: category.name } });
     if (checkName) {
-      return {
-        data: null,
-        IsSuccess: false,
-        Message: `Category ${Message.WAS_EXITS}`,
-      }
+      return ResponseData.error(`Category ${Message.WAS_EXITS}`)
     }
     const insertCategory = await this.categoryRepository.save(category);
-    return {
-      data: insertCategory,
-      IsSuccess: true,
-      Message: Message.CREATE_SUCCESS,
-    }
+    return ResponseData.success(insertCategory, Message.CREATE_SUCCESS)
   }
 
   async updateCategory(updateCategoryDto: UpdateCategoryDto) {
     const checkCategory = await this.categoryRepository.findOne({ where: { id: updateCategoryDto.id } });
     if (!checkCategory) {
-      return {
-        data: null,
-        IsSuccess: false,
-        Message: `Category ${Message.DOES_NOT_EXIST}`,
-      }
+      return ResponseData.error(`Category ${Message.DOES_NOT_EXIST}`)
     }
     updateCategoryDto.name = convertName(updateCategoryDto.name);
-    const updateCategory = await this.categoryRepository.save(updateCategoryDto)
-    return {
-      data: updateCategory,
-      IsSuccess: true,
-      Message: Message.UPDATE_SUCCESS,
+    const checkName = await this.categoryRepository.findOne({ where: { name: updateCategoryDto.name } });
+    if (checkName) {
+      return ResponseData.error(`Name ${Message.WAS_EXITS}`);
     }
+    const updateCategory = await this.categoryRepository.update(updateCategoryDto.id, updateCategoryDto);
+    return ResponseData.success(updateCategory, Message.UPDATE_SUCCESS,)
   }
 }
