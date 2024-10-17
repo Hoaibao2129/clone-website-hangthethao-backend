@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { Readable } from 'stream';
+import { firebaseConfig } from 'config/firebaseConfig';
 
 @Injectable()
 export class FirebaseService {
     constructor() {
-        const serviceAccount = require('../config/serviceAccountKey.json');
+        // const serviceAccount = require('../config/serviceAccountKey.json');
 
         admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount),
+            credential: admin.credential.cert(firebaseConfig),
             storageBucket: 'manager-user.appspot.com',
         });
     }
