@@ -7,6 +7,8 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
+import { ProductModule } from './product/product.module';
+// import { FirebaseModule } from './firebase/firebase.module';
 envConfig();
 @Module({
   imports: [
@@ -36,6 +38,8 @@ envConfig();
     SubCategoryModule,
     AuthModule,
     AdminModule,
+    ProductModule,
+    // FirebaseModule,
   ],
   controllers: [],
   providers: [],

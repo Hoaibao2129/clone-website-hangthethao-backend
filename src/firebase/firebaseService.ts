@@ -6,17 +6,16 @@ import { firebaseConfig } from 'config/firebaseConfig';
 @Injectable()
 export class FirebaseService {
     constructor() {
-        // const serviceAccount = require('../config/serviceAccountKey.json');
-
         admin.initializeApp({
             credential: admin.credential.cert(firebaseConfig),
-            storageBucket: 'manager-user.appspot.com',
+            storageBucket: process.env.FIREBASE_BUCKET_NAME,
         });
     }
 
+
+
     async uploadFile(file: Express.Multer.File): Promise<string> {
         const bucket = admin.storage().bucket();
-
         const fileUpload = bucket.file(file.originalname);
         const stream = Readable.from(file.buffer);
 
@@ -30,8 +29,8 @@ export class FirebaseService {
                 .on('finish', resolve)
                 .on('error', reject);
         });
-
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.originalname}`;
+        await fileUpload.makePublic();
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
         return publicUrl;
     }
 }
