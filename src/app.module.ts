@@ -39,7 +39,6 @@ envConfig();
     AuthModule,
     AdminModule,
     ProductModule,
-    // FirebaseModule,
   ],
   controllers: [],
   providers: [],
