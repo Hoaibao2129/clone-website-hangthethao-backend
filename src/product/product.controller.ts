@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 // import { CreateProductDto } from './dto/createProduct.dto';
 import { ProductService } from './product.service';
@@ -32,6 +32,11 @@ export class ProductController {
             filterProduct.subCategoryId = subCategoryId;
         }
         return this.productService.getProducts(filterProduct);
+    }
+
+    @Delete(':id')
+    async deleteProduct(@Param('id') id: string) {
+        return this.productService.deleteProduct(+id);
     }
 
 }

@@ -34,4 +34,11 @@ export class FirebaseService {
         const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
         return publicUrl;
     }
+
+    async deleteFile(fileName: string): Promise<boolean> {
+        const bucket = admin.storage().bucket();
+        const file = bucket.file(fileName);
+        await file.delete();
+        return true;
+    }
 }
