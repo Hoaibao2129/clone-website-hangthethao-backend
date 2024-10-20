@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
+import { Product } from 'product/entities/product.entity';
 
 @Entity('subCategory')
 export class SubCategory {
@@ -9,7 +10,7 @@ export class SubCategory {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   categoryId: number;
 
   @CreateDateColumn()
@@ -18,6 +19,12 @@ export class SubCategory {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Category, (category) => category.subCategoryEntity)
-  categoryEntity: Category;
+  @ManyToOne(() => Category, category => category.subCategories)
+  category: Category;
+
+  @OneToMany(() => Product, (product: Product) => product.subCategory)
+  products: Product[];
+
+  // @OneToMany(() => Category, (category) => category.subCategoryEntity)
+  // categoryEntity: Category;
 }
