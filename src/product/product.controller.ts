@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 // import { CreateProductDto } from './dto/createProduct.dto';
 import { ProductService } from './product.service';
@@ -34,9 +34,16 @@ export class ProductController {
         return this.productService.getProducts(filterProduct);
     }
 
+    @Put()
+    @UseInterceptors(FilesInterceptor('image', 10))
+    async updateProduct(@UploadedFiles() images: Array<Express.Multer.File>, @Body() updateProductDto: any) {
+        return this.productService.updateProduct(images, convertDataCreatePROD(updateProductDto))
+    }
+
     @Delete(':id')
     async deleteProduct(@Param('id') id: string) {
         return this.productService.deleteProduct(+id);
     }
+
 
 }

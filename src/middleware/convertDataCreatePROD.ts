@@ -14,6 +14,9 @@ export function convertDataCreatePROD(data: any) {
     if (data.subCategoryId) {
         data.subCategoryId = JSON.parse(data.subCategoryId);
     }
+    if (data.id) {
+        data.id = parseInt(data.id)
+    }
 
     return data;
 }

@@ -9,6 +9,7 @@ import { SubCategory } from 'sub-category/entities/subCategory.entity';
 import { FileName, Message } from 'enum/message.enum';
 import { ResponseData } from 'helper/formatReturn';
 import { FilterProduct } from './dto/filterProduct';
+import { UpdateProductDto } from './dto/updateProduct.dto';
 
 @Injectable()
 export class ProductService {
@@ -66,14 +67,45 @@ export class ProductService {
             return ResponseData.error(Message.DOES_NOT_EXIST)
         }
         if (checkProduct.image.length > 0) {
-            const deleteImgPromise = checkProduct.image.map((val) => {
-                val = val.replace('https://storage.googleapis.com/manager-user-130aa.appspot.com/', '');
-                return this.firebaseService.deleteFile(val);
+            const deleteImgPromise = checkProduct.image.map((image) => {
+                image = image.replace('https://storage.googleapis.com/manager-user-130aa.appspot.com/', '');
+                return this.firebaseService.deleteFile(image);
             })
             Promise.all(deleteImgPromise);
         }
         const deleteProduct = await this.productRepository.delete(id);
         return ResponseData.success(deleteProduct, Message.DELETE_SUCCESS)
+    }
+
+    async updateProduct(images: Array<Express.Multer.File>, updateProductDto: UpdateProductDto) {
+        console.log(updateProductDto);
+
+        const checkProduct = await this.productRepository.findOne({ where: { id: updateProductDto.id } });
+        if (!checkProduct) {
+            return ResponseData.error(Message.DOES_NOT_EXIST)
+        }
+        if (updateProductDto.imageDelete) {
+            const deleteImgPromise = updateProductDto.imageDelete.map((image) => {
+                image = image.replace('https://storage.googleapis.com/manager-user-130aa.appspot.com/', '');
+                return this.firebaseService.deleteFile(image);
+            })
+            updateProductDto.imageDelete.map((imgDel) => {
+                checkProduct.image = checkProduct.image.filter((img) => img !== imgDel);
+            })
+            Promise.all(deleteImgPromise);
+
+        }
+        if (images) {
+            const getUrlImagesPromise = images.map((image) => {
+                return this.firebaseService.uploadFile(image, checkProduct.id, FileName.PRODUCT);
+            });
+            const result = await Promise.all(getUrlImagesPromise);
+            checkProduct.image.push(...result);
+        }
+
+        Object.assign(checkProduct, updateProductDto)
+        const updateProduct = await this.productRepository.update(checkProduct.id, checkProduct);
+        return ResponseData.success(updateProduct, Message.UPDATE_SUCCESS)
     }
 
     private buildWhereCondition(filterProduct: FilterProduct) {
