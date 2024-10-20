@@ -8,6 +8,7 @@ import { Category } from 'category/entities/category.entity';
 import { SubCategory } from 'sub-category/entities/subCategory.entity';
 import { FileName, Message } from 'enum/message.enum';
 import { ResponseData } from 'helper/formatReturn';
+import { FilterProduct } from './dto/filterProduct';
 @Injectable()
 export class ProductService {
     constructor(
@@ -33,6 +34,8 @@ export class ProductService {
             return ResponseData.error(`SubCategory ${Message.DOES_NOT_EXIST}`);
         }
         const saveProduct = await this.productRepository.save(product);
+        saveProduct.category = checkCategory
+        saveProduct.subCategory = checkSubCategory;
         if (images.length > 0) {
             const getUrlImagesPromise = images.map((image) => {
                 return this.firebaseService.uploadFile(image, 1, FileName.PRODUCT);
@@ -44,5 +47,29 @@ export class ProductService {
             return ResponseData.success(updateProduct, Message.CREATE_SUCCESS);
         }
         return ResponseData.success(saveProduct, Message.CREATE_SUCCESS);
+    }
+
+    async getProducts(filterProduct: FilterProduct) {
+        const where = this.buildWhereCondition(filterProduct);
+        const products = await this.productRepository.find({
+            where,
+        })
+
+        this.buildWhereCondition(filterProduct);
+        return ResponseData.success(products, Message.GET_SUCCESS);
+    }
+
+    private buildWhereCondition(filterProduct: FilterProduct) {
+        const where: any = {};
+
+        if (filterProduct.categoryId) {
+            where.category = { id: filterProduct.categoryId };
+        }
+
+        if (filterProduct.subCategoryId) {
+            where.subCategory = { id: filterProduct.subCategoryId };
+        }
+
+        return where;
     }
 }
