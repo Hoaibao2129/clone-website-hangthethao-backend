@@ -9,6 +9,7 @@ import { SubCategory } from 'sub-category/entities/subCategory.entity';
 import { FileName, Message } from 'enum/message.enum';
 import { ResponseData } from 'helper/formatReturn';
 import { FilterProduct } from './dto/filterProduct';
+
 @Injectable()
 export class ProductService {
     constructor(
@@ -38,7 +39,7 @@ export class ProductService {
         saveProduct.subCategory = checkSubCategory;
         if (images.length > 0) {
             const getUrlImagesPromise = images.map((image) => {
-                return this.firebaseService.uploadFile(image, 1, FileName.PRODUCT);
+                return this.firebaseService.uploadFile(image, saveProduct.id, FileName.PRODUCT);
             });
             const result = await Promise.all(getUrlImagesPromise);
             urlImages.push(...result);
@@ -57,6 +58,22 @@ export class ProductService {
 
         this.buildWhereCondition(filterProduct);
         return ResponseData.success(products, Message.GET_SUCCESS);
+    }
+
+    async deleteProduct(id: number) {
+        const checkProduct = await this.productRepository.findOne({ where: { id } });
+        if (!checkProduct) {
+            return ResponseData.error(Message.DOES_NOT_EXIST)
+        }
+        if (checkProduct.image.length > 0) {
+            const deleteImgPromise = checkProduct.image.map((val) => {
+                val = val.replace('https://storage.googleapis.com/manager-user-130aa.appspot.com/', '');
+                return this.firebaseService.deleteFile(val);
+            })
+            Promise.all(deleteImgPromise);
+        }
+        const deleteProduct = await this.productRepository.delete(id);
+        return ResponseData.success(deleteProduct, Message.DELETE_SUCCESS)
     }
 
     private buildWhereCondition(filterProduct: FilterProduct) {
