@@ -1,6 +1,11 @@
 import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, } from "class-validator";
 
 export class CreateProductDto {
+    constructor() {
+        this.rating = 0;
+        this.quantity = 0;
+        this.soldOut = true;
+    }
     @IsString()
     @IsNotEmpty()
     name: string;
@@ -42,5 +47,5 @@ export class CreateProductDto {
     @IsArray()
     @IsNumber({}, { each: true })
     @IsNotEmpty()
-    subCategoryId: number[];
+    subCategoryId: number;
 }

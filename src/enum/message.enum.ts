@@ -11,3 +11,7 @@ export enum Message {
     CREATE_SUCCESS = "Create Success",
     IS_NOT_EMPTY = "Is not empty"
 }
+
+export enum FileName {
+    PRODUCT = 'product',
+}
