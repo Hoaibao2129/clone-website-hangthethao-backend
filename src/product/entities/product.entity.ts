@@ -13,22 +13,22 @@ export class Product {
     @Column({ type: Number })
     price: number;
 
-    @Column('text')
+    @Column('text', { array: true, nullable: true })
     image: string[];
 
-    @Column()
+    @Column("text", { nullable: true })
     rating: number;
 
-    @Column('text')
+    @Column('text', { nullable: true })
     description: string;
 
     @Column({ default: false })
     soldOut: boolean;
 
-    @Column({ type: 'int' })
+    @Column({ type: 'int', nullable: true })
     quantity: number;
 
-    @Column('varchar')
+    @Column({ nullable: true })
     brand: string;
 
     @CreateDateColumn()

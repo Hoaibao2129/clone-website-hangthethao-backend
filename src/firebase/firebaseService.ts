@@ -14,9 +14,10 @@ export class FirebaseService {
 
 
 
-    async uploadFile(file: Express.Multer.File): Promise<string> {
+    async uploadFile(file: Express.Multer.File, id: number, folder: string): Promise<string> {
         const bucket = admin.storage().bucket();
-        const fileUpload = bucket.file(file.originalname);
+        const fileName = `${folder}/${id}/${file.originalname}`;
+        const fileUpload = bucket.file(fileName);
         const stream = Readable.from(file.buffer);
 
         await new Promise((resolve, reject) => {
