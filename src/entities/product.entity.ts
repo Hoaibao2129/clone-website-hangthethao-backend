@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Category } from '../../category/entities/category.entity';
-import { SubCategory } from '../../sub-category/entities/subCategory.entity';
+import { Category } from './category.entity';
+import { SubCategory } from './subCategory.entity';
 
 @Entity('product')
 export class Product {
@@ -28,9 +28,8 @@ export class Product {
     @Column({ type: 'int', nullable: true })
     quantity: number;
 
-    @Column({ nullable: true })
-    brand: string;
-
+    // @Column({ nullable: true })
+    // brand: string;
 
     @ManyToOne(() => Category, (category: Category) => category.products, { eager: true })
     @JoinColumn({ name: 'categoryId' })

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SubCategory } from './entities/subCategory.entity';
-import { Category } from 'category/entities/category.entity';
+import { SubCategory } from '../entities/subCategory.entity';
+import { Category } from '../entities/category.entity';
 import { createSubCategoryDto } from './dto/createSubCategory.dto';
 import { Message } from 'enum/message.enum';
 import { convertName } from 'middleware/convertName';

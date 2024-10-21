@@ -3,9 +3,9 @@ import { FirebaseService } from '../firebase/firebaseService'
 import { CreateProductDto } from './dto/createProduct.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Product } from './entities/product.entity';
-import { Category } from 'category/entities/category.entity';
-import { SubCategory } from 'sub-category/entities/subCategory.entity';
+import { Product } from '../entities/product.entity';
+import { Category } from '../entities/category.entity';
+import { SubCategory } from '../entities/subCategory.entity';
 import { FileName, Message } from 'enum/message.enum';
 import { ResponseData } from 'helper/formatReturn';
 import { FilterProduct } from './dto/filterProduct';
