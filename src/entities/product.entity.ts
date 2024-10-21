@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
 import { SubCategory } from './subCategory.entity';
+import { ProductQuantity } from './productQuantity.entity'
 
 @Entity('product')
 export class Product {
@@ -38,6 +39,9 @@ export class Product {
     @ManyToOne(() => SubCategory, (subCategory: SubCategory) => subCategory.products, { eager: true })
     @JoinColumn({ name: 'subCategoryId' })
     subCategory: SubCategory;
+
+    @OneToMany(() => ProductQuantity, (productQuantity: ProductQuantity) => productQuantity.products)
+    productQuantity: ProductQuantity[];
 
 
     @CreateDateColumn()
