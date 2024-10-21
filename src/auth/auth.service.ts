@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Admin } from '../admin/entities/admin.entity';
+import { Admin } from '../entities/admin.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
