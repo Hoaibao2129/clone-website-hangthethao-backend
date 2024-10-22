@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-// import { CreateProductDto } from './dto/createProduct.dto';
 import { ProductService } from './product.service';
 import { convertDataCreatePROD } from 'middleware/convertDataCreatePROD';
 import { ApiTags } from '@nestjs/swagger';
 import { FilterProduct } from './dto/filterProduct';
+import { CreateCategoryDto } from 'category/dto/createCategory.dto';
+import { UpdateProductDto } from './dto/updateProduct.dto';
 @Controller('product')
 @ApiTags('product')
 export class ProductController {
@@ -15,7 +16,7 @@ export class ProductController {
 
     @Post("")
     @UseInterceptors(FilesInterceptor('image', 10)) // image is name in form data and 10 is limit file size
-    async insertProduct(@UploadedFiles() images: Array<Express.Multer.File>, @Body() product: any) {
+    async insertProduct(@UploadedFiles() images: Array<Express.Multer.File>, @Body() product: CreateCategoryDto) {
         return this.productService.insertProduct(images, convertDataCreatePROD(product));
     }
 
@@ -35,7 +36,7 @@ export class ProductController {
 
     @Put()
     @UseInterceptors(FilesInterceptor('image', 10))
-    async updateProduct(@UploadedFiles() images: Array<Express.Multer.File>, @Body() updateProductDto: any) {
+    async updateProduct(@UploadedFiles() images: Array<Express.Multer.File>, @Body() updateProductDto: UpdateProductDto) {
         return this.productService.updateProduct(images, convertDataCreatePROD(updateProductDto))
     }
 
