@@ -1,10 +1,11 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, } from "class-validator";
 import { Message } from "enum/message.enum";
-
+import { Type } from 'class-transformer';
 export class UpdateProductDto {
 
     @IsNumber()
     @IsNotEmpty({ message: Message.IS_NOT_EMPTY })
+    @Type(() => Number)
     id: number;
 
     @IsString()

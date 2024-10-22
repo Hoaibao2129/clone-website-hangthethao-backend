@@ -78,8 +78,6 @@ export class ProductService {
     }
 
     async updateProduct(images: Array<Express.Multer.File>, updateProductDto: UpdateProductDto) {
-        console.log(updateProductDto);
-
         const checkProduct = await this.productRepository.findOne({ where: { id: updateProductDto.id } });
         if (!checkProduct) {
             return ResponseData.error(Message.DOES_NOT_EXIST)
@@ -100,6 +98,7 @@ export class ProductService {
                 return this.firebaseService.uploadFile(image, checkProduct.id, FileName.PRODUCT);
             });
             const result = await Promise.all(getUrlImagesPromise);
+
             checkProduct.image.push(...result);
         }
 

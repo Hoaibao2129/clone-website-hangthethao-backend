@@ -14,7 +14,7 @@ export class Product {
     @Column({ type: Number })
     price: number;
 
-    @Column('text', { array: true, nullable: true })
+    @Column('text', { array: true, nullable: true, default: [] })
     image: string[];
 
     @Column("text", { nullable: true })
