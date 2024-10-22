@@ -1,5 +1,10 @@
+import { IsNumberString, IsOptional } from 'class-validator';
 export class FilterProduct {
-    constructor() { }
-    categoryId: number;
-    subCategoryId: number;
+    @IsOptional()
+    @IsNumberString()
+    categoryId?: string;
+
+    @IsOptional()
+    @IsNumberString()
+    subCategoryId?: string;
 }

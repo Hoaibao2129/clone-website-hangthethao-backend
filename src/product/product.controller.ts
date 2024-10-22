@@ -20,17 +20,16 @@ export class ProductController {
     }
 
     @Get("")
-    async getProduct(
-        @Query('categoryId') categoryId: number,
-        @Query('subCategoryId') subCategoryId: number,
-    ) {
+    async getProduct(@Query() query: FilterProduct) {
         const filterProduct: FilterProduct = new FilterProduct();
-        if (categoryId) {
-            filterProduct.categoryId = categoryId;
+        if (query.categoryId) {
+            filterProduct.categoryId = query.categoryId;
         }
-        if (subCategoryId) {
-            filterProduct.subCategoryId = subCategoryId;
+        if (query.subCategoryId) {
+            filterProduct.subCategoryId = query.subCategoryId;
         }
+        // console.log(filterProduct);
+
         return this.productService.getProducts(filterProduct);
     }
 
