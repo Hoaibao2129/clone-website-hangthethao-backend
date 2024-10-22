@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { ProductModule } from './product/product.module';
 // import { FirebaseModule } from './firebase/firebase.module';
+import { SizeModule } from './size/size.module';
 envConfig();
 @Module({
   imports: [
@@ -41,6 +42,7 @@ envConfig();
     AuthModule,
     AdminModule,
     ProductModule,
+    SizeModule,
   ],
   controllers: [],
   providers: [],

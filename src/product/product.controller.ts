@@ -29,7 +29,7 @@ export class ProductController {
         if (query.subCategoryId) {
             filterProduct.subCategoryId = query.subCategoryId;
         }
-        // console.log(filterProduct);
+        console.log(query);
 
         return this.productService.getProducts(filterProduct);
     }
