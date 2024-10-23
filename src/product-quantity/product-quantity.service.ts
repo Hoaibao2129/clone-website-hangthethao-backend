@@ -48,4 +48,9 @@ export class ProductQuantityService {
 
         return ResponseData.success(updateProdQuantity, Message.UPDATE_SUCCESS);
     }
+
+    async deleteProdQuantity(id: number) {
+        const del = await this.productQuantityRepository.delete(id);
+        return ResponseData.success(del, Message.DELETE_SUCCESS);
+    }
 }
