@@ -40,7 +40,7 @@ export class Product {
     @JoinColumn({ name: 'subCategoryId' })
     subCategory: SubCategory;
 
-    @OneToMany(() => ProductQuantity, (productQuantity: ProductQuantity) => productQuantity.products)
+    @OneToMany(() => ProductQuantity, (productQuantity: ProductQuantity) => productQuantity.product)
     productQuantity: ProductQuantity[];
 
 

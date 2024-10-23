@@ -19,7 +19,7 @@ export class ProductQuantity {
 
     @ManyToOne(() => Product, (product: Product) => product.productQuantity)
     @JoinColumn()
-    products: Product;
+    product: Product;
 
     @ManyToOne(() => Size, (size: Size) => size.productQuantity)
     @JoinColumn()
