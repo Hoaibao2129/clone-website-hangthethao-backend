@@ -7,6 +7,7 @@ import { Product } from 'entities/product.entity';
 import { Size } from 'entities/size.entity';
 import { ResponseData } from 'helper/formatReturn';
 import { Message } from 'enum/message.enum';
+import { UpdateProdQuantityDto } from './dto/updateProdQlty.dto';
 
 @Injectable()
 export class ProductQuantityService {
@@ -33,5 +34,18 @@ export class ProductQuantityService {
         const saveProdQuantity = await this.productQuantityRepository.save(createProdQuantityDto);
 
         return ResponseData.success(saveProdQuantity, Message.CREATE_SUCCESS);
+    }
+
+    async updateProdQuantity(updateProdQuantityDto: UpdateProdQuantityDto) {
+        const checkProdQlty = await this.productQuantityRepository.findOne({ where: { id: updateProdQuantityDto.id } })
+
+        if (!checkProdQlty) {
+            return ResponseData.error(Message.DOES_NOT_EXIST);
+        }
+
+        Object.assign(checkProdQlty, updateProdQuantityDto);
+        const updateProdQuantity = await this.productQuantityRepository.update(checkProdQlty.id, checkProdQlty);
+
+        return ResponseData.success(updateProdQuantity, Message.UPDATE_SUCCESS);
     }
 }
