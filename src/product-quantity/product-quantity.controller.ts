@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
 import { ProductQuantityService } from './product-quantity.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateProdQuantityDto } from './dto/createProdQlty.dto';
@@ -22,5 +22,9 @@ export class ProductQuantityController {
         return this.productQuantityService.updateProdQuantity(updateProdQuantityDto);
     }
 
+    @Delete(":id")
+    async deleteProdQuantity(@Param('id') id: string) {
+        return this.productQuantityService.deleteProdQuantity(+id)
+    }
 
 }
