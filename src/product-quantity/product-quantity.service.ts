@@ -46,6 +46,9 @@ export class ProductQuantityService {
         Object.assign(checkProdQlty, updateProdQuantityDto);
         const updateProdQuantity = await this.productQuantityRepository.update(checkProdQlty.id, checkProdQlty);
 
+        console.log(123);
+
+
         return ResponseData.success(updateProdQuantity, Message.UPDATE_SUCCESS);
     }
 
