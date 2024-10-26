@@ -25,6 +25,7 @@ export class ProductService {
     ) { }
 
     async insertProduct(images: Array<Express.Multer.File>, product: CreateProductDto) {
+
         const urlImages: any[] = [];
 
         const checkCategory = await this.categoryRepository.findOne({ where: { id: product.categoryId } });
@@ -35,9 +36,9 @@ export class ProductService {
         if (checkCategory.id !== checkSubCategory.categoryId) {
             return ResponseData.error(`SubCategory ${Message.DOES_NOT_EXIST}`);
         }
+        product.category = checkCategory;
+        product.subCategory = checkSubCategory;
         const saveProduct = await this.productRepository.save(product);
-        saveProduct.category = checkCategory
-        saveProduct.subCategory = checkSubCategory;
         if (images.length > 0) {
             const getUrlImagesPromise = images.map((image) => {
                 return this.firebaseService.uploadFile(image, saveProduct.id, FileName.PRODUCT);
@@ -52,10 +53,7 @@ export class ProductService {
     }
 
     async getProducts(filterProduct: FilterProduct) {
-        const where = this.buildWhereCondition(filterProduct);
-        const products = await this.productRepository.find({
-            where,
-        })
+        const products = await this.queryBuilderGetProduct(filterProduct);
 
         return ResponseData.success(products, Message.GET_SUCCESS);
     }
@@ -118,5 +116,27 @@ export class ProductService {
         }
 
         return where;
+    }
+
+    private async queryBuilderGetProduct(filterProduct: FilterProduct) {
+        const queryBuilderGetProduct = await this.productRepository
+            .createQueryBuilder("product")
+            .select(["product.id as id", "product.name as name"])
+            .addSelect("COALESCE(SUM(pq.quantity), 0)", "quantity")
+            .innerJoin("product.productQuantity", "pq");
+        if (filterProduct.categoryId) {
+            queryBuilderGetProduct.innerJoin("product.category", "category")
+                .andWhere("category.id = :categoryId", { categoryId: filterProduct.categoryId })
+        };
+        if (filterProduct.subCategoryId) {
+            queryBuilderGetProduct.innerJoin("product.subCategory", "subCategory")
+                .andWhere("subCategory.id = :subCategoryId", { subCategoryId: filterProduct.subCategoryId })
+        }
+        queryBuilderGetProduct
+            .groupBy("product.id")
+            .addGroupBy("product.name")
+
+        const result = await queryBuilderGetProduct.getRawMany();
+        return result;
     }
 }
