@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { Category } from './category.entity';
 import { SubCategory } from './subCategory.entity';
 import { ProductQuantity } from './productQuantity.entity'
+import { CartDetail } from './cartDetail.entity';
 
 @Entity('product')
 export class Product {
@@ -43,6 +44,8 @@ export class Product {
     @OneToMany(() => ProductQuantity, (productQuantity: ProductQuantity) => productQuantity.product)
     productQuantity: ProductQuantity[];
 
+    @OneToMany(() => CartDetail, (cartDetail: CartDetail) => cartDetail.product)
+    cartDetail: CartDetail[];
 
     @CreateDateColumn()
     createdAt: Date;
