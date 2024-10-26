@@ -11,6 +11,7 @@ import { ProductModule } from './product/product.module';
 // import { FirebaseModule } from './firebase/firebase.module';
 import { SizeModule } from './size/size.module';
 import { ProductQuantityModule } from './product-quantity/product-quantity.module';
+import { CartModule } from './cart/cart.module';
 envConfig();
 @Module({
   imports: [
@@ -45,6 +46,7 @@ envConfig();
     ProductModule,
     SizeModule,
     ProductQuantityModule,
+    CartModule,
   ],
   controllers: [],
   providers: [],
