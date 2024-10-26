@@ -1,4 +1,6 @@
 import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, } from "class-validator";
+import { Category } from "entities/category.entity";
+import { SubCategory } from "entities/subCategory.entity";
 
 export class CreateProductDto {
     constructor() {
@@ -48,4 +50,10 @@ export class CreateProductDto {
     @IsNumber({}, { each: true })
     @IsNotEmpty()
     subCategoryId: number;
+
+    @IsOptional()
+    category: Category;
+
+    @IsOptional()
+    subCategory: SubCategory
 }
