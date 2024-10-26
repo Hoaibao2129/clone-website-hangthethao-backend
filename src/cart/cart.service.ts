@@ -7,6 +7,7 @@ import { AddToCartDto } from './dto/addToCart.dto';
 import { ResponseData } from 'helper/formatReturn';
 import { Message } from 'enum/message.enum';
 import { Product } from 'entities/product.entity';
+import { UpdateCartDto } from './dto/updateCart.dto';
 
 @Injectable()
 export class CartService {
@@ -59,5 +60,17 @@ export class CartService {
             }
         );
         return ResponseData.success(cartDetail, Message.GET_SUCCESS);
+    }
+
+    async updateCartDetail(updateCartDetail: UpdateCartDto) {
+        const checkCartDetail = await this.cartDetailRepository.findOne({ where: { id: updateCartDetail.id } });
+        if (!checkCartDetail) {
+            return ResponseData.error(`CartDetail ${Message.DOES_NOT_EXIST}`);
+        }
+
+        checkCartDetail.quantity = updateCartDetail.quantity;
+        const update = await this.cartDetailRepository.update(checkCartDetail.id, checkCartDetail);
+
+        return ResponseData.success(update, Message.UPDATE_SUCCESS);
     }
 }
