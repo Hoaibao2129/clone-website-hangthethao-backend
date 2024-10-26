@@ -57,7 +57,6 @@ export class ProductService {
             where,
         })
 
-        this.buildWhereCondition(filterProduct);
         return ResponseData.success(products, Message.GET_SUCCESS);
     }
 
