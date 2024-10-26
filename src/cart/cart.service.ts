@@ -50,4 +50,14 @@ export class CartService {
 
         return ResponseData.success(saveCartDetail, Message.CREATE_SUCCESS);
     }
+
+    async getCartDetail(id: number) {
+        const cartDetail = await this.cartDetailRepository.find(
+            {
+                where: { cart: { id } },
+                relations: ["product"]
+            }
+        );
+        return ResponseData.success(cartDetail, Message.GET_SUCCESS);
+    }
 }
