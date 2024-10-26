@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ProductQuantityService } from './product-quantity.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateProdQuantityDto } from './dto/createProdQlty.dto';
 import { UpdateProdQuantityDto } from './dto/updateProdQlty.dto';
+import { FilterProdQltyDto } from './dto/filterProdQlty.dto';
 
 @Controller('product-quantity')
 @ApiTags('product-quantity')
@@ -25,6 +26,11 @@ export class ProductQuantityController {
     @Delete(":id")
     async deleteProdQuantity(@Param('id') id: string) {
         return this.productQuantityService.deleteProdQuantity(+id)
+    }
+
+    @Get("")
+    async getProdQuantity(@Query() ProdQltyFilter: FilterProdQltyDto) {
+        return this.productQuantityService.getProdQuantityByProductId(ProdQltyFilter);
     }
 
 }

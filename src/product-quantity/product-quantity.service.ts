@@ -8,6 +8,7 @@ import { Size } from 'entities/size.entity';
 import { ResponseData } from 'helper/formatReturn';
 import { Message } from 'enum/message.enum';
 import { UpdateProdQuantityDto } from './dto/updateProdQlty.dto';
+import { FilterProdQltyDto } from './dto/filterProdQlty.dto';
 
 @Injectable()
 export class ProductQuantityService {
@@ -46,8 +47,6 @@ export class ProductQuantityService {
         Object.assign(checkProdQlty, updateProdQuantityDto);
         const updateProdQuantity = await this.productQuantityRepository.update(checkProdQlty.id, checkProdQlty);
 
-        console.log(123);
-
 
         return ResponseData.success(updateProdQuantity, Message.UPDATE_SUCCESS);
     }
@@ -55,5 +54,26 @@ export class ProductQuantityService {
     async deleteProdQuantity(id: number) {
         const del = await this.productQuantityRepository.delete(id);
         return ResponseData.success(del, Message.DELETE_SUCCESS);
+    }
+
+    async getProdQuantityByProductId(ProdQltyFilter: FilterProdQltyDto) {
+        const where = this.buildWhereCondition(ProdQltyFilter);
+        const prodQuantity: any = await this.productQuantityRepository.find({
+            where,
+        });
+        console.log(prodQuantity);
+        // return prodQuantity;
+    }
+
+    private buildWhereCondition(ProdQltyFilter: FilterProdQltyDto) {
+        const where: any = {};
+        if (ProdQltyFilter.productId) {
+            where.product = { id: ProdQltyFilter.productId };
+        }
+        if (ProdQltyFilter.sizeId) {
+            where.size = { id: ProdQltyFilter.sizeId };
+        }
+
+        return where;
     }
 }
