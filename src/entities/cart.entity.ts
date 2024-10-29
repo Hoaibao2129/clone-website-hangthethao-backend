@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
 import { CartDetail } from './cartDetail.entity';
+import { HistoryBuyProduct } from './historyBuyProduct.entity';
 
 @Entity('cart')
 export class Cart {
@@ -14,4 +15,8 @@ export class Cart {
 
     @OneToMany(() => CartDetail, (cartDetail: CartDetail) => cartDetail.cart)
     cartDetail: CartDetail[];
+
+    @OneToOne(() => HistoryBuyProduct, (historyBuyProductEntity: HistoryBuyProduct) => historyBuyProductEntity.cart)
+    @JoinColumn()
+    historyBuyProductEntity: HistoryBuyProduct;
 }
