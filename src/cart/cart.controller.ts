@@ -22,7 +22,7 @@ export class CartController {
     }
 
     @Put()
-    async updateCart(@Body() updateCart: UpdateCartDto) {
+    async updateCart(@Body() updateCart: UpdateCartDto) { // update cart updated
         return this.cartService.updateCartDetail(updateCart);
     }
 }
