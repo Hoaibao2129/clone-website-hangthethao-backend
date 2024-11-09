@@ -18,7 +18,7 @@ export class CartController {
 
     @Get(':id')
     async viewDetailCart(@Param("id") id: string) {
-        return this.cartService.getCartDetail(+id);// get cart detail
+        return this.cartService.getCartDetail(+id);// get cart detail updated
     }
 
     @Put()
