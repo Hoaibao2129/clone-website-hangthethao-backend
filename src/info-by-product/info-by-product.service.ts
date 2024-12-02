@@ -17,6 +17,6 @@ export class InfoByProductService {
 
     async getInfoBuyProductById(id: number) {
         const getInfoBuyProduct = await this.infoBuyProd.findOne({ where: { id } });
-        return getInfoBuyProduct;
+        return getInfoBuyProduct
     }
 }
