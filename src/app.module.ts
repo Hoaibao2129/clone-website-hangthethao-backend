@@ -12,6 +12,8 @@ import { ProductModule } from './product/product.module';
 import { SizeModule } from './size/size.module';
 import { ProductQuantityModule } from './product-quantity/product-quantity.module';
 import { CartModule } from './cart/cart.module';
+import { HistoryByProductModule } from './history-by-product/history-by-product.module';
+import { InfoByProductModule } from './info-by-product/info-by-product.module';
 envConfig();
 @Module({
   imports: [
@@ -47,6 +49,8 @@ envConfig();
     SizeModule,
     ProductQuantityModule,
     CartModule,
+    HistoryByProductModule,
+    InfoByProductModule,
   ],
   controllers: [],
   providers: [],
