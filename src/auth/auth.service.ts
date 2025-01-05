@@ -12,11 +12,19 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) { }
 
-    async generateAccessToken(payload: any) {
+    async generateToken(payload: any, secretKey: string, expiresIn: string) {
         return this.jwtService.sign(payload, {
-            secret: process.env.ACCESS_TOKEN_SECRET,
-            expiresIn: '15m',
+            secret: secretKey,
+            expiresIn,
         });
+    }
+
+    async verifyToken(token: string, secretKey: string) {
+        try {
+            return this.jwtService.verify(token, { secret: secretKey });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     async findUserByTell(tell: string) {
@@ -33,8 +41,8 @@ export class AuthService {
 
     async generateRefreshToken(payload: any) {
         return this.jwtService.sign(payload, {
-            secret: process.env.ACCESS_TOKEN_SECRET,
-            expiresIn: '15m',
+            secret: process.env.REFRESH_TOKEN_SECRET,
+            expiresIn: '14 days',
         });
     }
 }
