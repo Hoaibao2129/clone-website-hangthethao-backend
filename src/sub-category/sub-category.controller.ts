@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Post, Put, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Param, Delete, UseGuards } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { createSubCategoryDto } from './dto/createSubCategory.dto';
 import { UpdateCategoryDto } from "./dto/updateSubCategory.dto"
 import { ApiTags } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '../auth/guards/JwtAuthGuard';
 @Controller('sub-category')
 @ApiTags('sub-category')
+@UseGuards(JwtAuthGuard)
 export class SubCategoryController {
     constructor(private subCategoryService: SubCategoryService) { }
 
